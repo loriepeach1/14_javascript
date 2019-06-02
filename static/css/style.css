@@ -139,6 +139,14 @@ select {
   color: #8e979f;
 }
 
+/* Added.   Change row on hover */
+tr:hover {
+  background-color: lightblue;
+  font-weight: bold;
+  color: #ff6347 ;
+}
+
+
 /* media queries which will only be activated at specific screen sizes */
 @media (max-width: 800px) {
   #table-area td {

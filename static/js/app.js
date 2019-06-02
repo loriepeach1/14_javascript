@@ -1,90 +1,123 @@
-// from data.js
+////////////////////////////////////////////////////////////
+//  Part  1 - Get the Data
+////////////////////////////////////////////////////////////
+
+console.log("-----Begin Part  1 -----")
+
+// the data file is data.js is an array called data
+// the data in the file is stored into a variable called tableData
 var tableData = data;
 
-// Console.log the weather data from data.js
-console.log("--->  View the data in the data.js file.")
+// In the console, note the step is complete and show the data
+console.log("Variable tableData has been created")
 //console.log(data);
 
 // Obtain a reference to the table body
 var tbody = d3.select("tbody");
 
 
-var columns = ["datetime", "city", "state", "country", "shape", "durationMinutes", "comments"]
+//  Display the data from the file to the HTML webpage
+// Function will be called each time a new display of data is needed.
+function populate(data) {
+  // First, clear out any existing data in the tbody tag
+  tbody.html("");
 
-//  Function to populate the table with data
-var populate = (dataInput) => {
-
-  dataInput.forEach(sightings => {
+  // Next, loop through each object in the data
+  // and append a row and cells for each value in the row
+  data.forEach((dataRow) => {
+    // Append a row to the table body
     var row = tbody.append("tr");
-    columns.forEach(column => row.append("td").text(sightings[column])
-    )
+
+    // Loop through each field in the dataRow and add
+    // each value as a table cell (td)
+    Object.values(dataRow).forEach((val) => {
+      var cell = row.append("td");
+      cell.text(val);
+    });
   });
 }
 
 //Populate table with initial values
+// will be used when the table first loads and anytime the user selects reset table button
+
 populate(tableData);
 
-console.log("Step 1 complete - full list of sighting data has been added to the table.")
+console.log("-----End  Part  1 -----")
 
-//   Declare variables where user inputs the data
-var userInputDate = d3.select("#datetime");
-var userInputCity = d3.select("#city");
-var userInputState = d3.select("#state");
-var userInputShape = d3.select("#shape");
-var resetButton = d3.select("#reset-btn");
-var submit = d3.select("#filter-btn");
+//////////////////////////////////////////////////////////////////////
+// Part 2 - Displaying Filtered Data
+//////////////////////////////////////////////////////////////////////
 
+// Solution allows all filters to be used.    Each filter is NOT defined.
+//   See the HTML file where li class="filter
 
-// Select the submit button
+// create an array to hold all the filters
+var filters = {};
 
-submit.on("click", function() {
+function updateFilters() {
 
-    // Prevent the page from refreshing
-    d3.event.preventDefault();
-  
-    // Select the input element and get the raw HTML node
-    //These are the values entered by the user
-    var inputDate = userInputDate.property("value").trim();
-    var inputCity = userInputCity.property("value").toLowerCase().trim();
-    var inputState = userInputState.property("value").toLowerCase().trim();
-    var inputShape = userInputShape.property("value").toLowerCase().trim();
+  // Save the element, value, and id of the filter that was changed
+  var changedElement = d3.select(this).select("input");  // matches to the input elements in the HTML
+  var elementValue = changedElement.property("value");   //  value of each input element in the HTML
+  var filterId = changedElement.attr("id");             //  each input element has an id attribute
 
-    //Filter the table for the fields mathing the user values
-    // Each field the user can filter is a unique variable
-    var filterDate = data.filter(data => data.datetime === inputDate);
-    console.log(filterDate)
+  //view the updateFilters initial values
+  console.log("------  updateFilters funtion - initial values")
+  console.log(changedElement)
+  console.log(elementValue)
+  console.log(filterId)
 
-    var filterCity = data.filter(data => data.city === inputCity);
-    console.log(filterCity)
-
-    var filterState = data.filter(data => data.state === inputState);
-    console.log(filterState)
-
-    var filterData = data.filter(data => data.datetime === inputDate && data.city === inputCity);
-    console.log(filterData)
-
-
-    // Add filtered sighting to table using IF condition
-    tbody.html("");
-
-    let response = {
-    filterDate, filterCity, filterState, filterData
-    }
-
-  if (response.filterData.length !== 0) {
-    populate(filterData);
+  // If a filter value was entered then add that filterId and value
+  // to the filters list. Otherwise, clear that filter from the filters object
+  if (elementValue) {
+    filters[filterId] = elementValue;
   }
-    else if (response.filterData.length === 0 && ((response.filterCity.length !== 0 || response.filterDate.length !== 0))){
-      populate(filterCity) || populate(filterDate);
-  
-    }
-    else {
-      tbody.append("tr").append("td").text("No results found!"); 
-    }
-})
+  else {
+    delete filters[filterId];
+  }
+
+  //view the updateFilters initial values
+  console.log("--- updateFilters funtion - end values")
+  console.log(changedElement)
+  console.log(elementValue)
+  console.log(filterId)
+
+  // Call function to apply all filters and rebuild the table
+  filterTable();
+
+}
+
+function filterTable() {
+
+  // Set the filteredData to the tableData
+  let filteredData = tableData;
+  //console.log("+++ Initial filteredData ++++++++++++")
+  //console.log(filteredData)
+
+  // Loop through all of the filters and keep any data that
+  // matches the filter values
+  Object.entries(filters).forEach(([key, value]) => {
+    filteredData = filteredData.filter(row => row[key] === value);
+  });
+
+  console.log("+++ End filteredData ++++++++++++")
+  console.log(filteredData)
+
+  // Finally, rebuild the table using the filtered Data
+  populate(filteredData);
+}
+
+// Attach an event to listen for changes to each filter
+d3.selectAll(".filter").on("change", updateFilters);
 
 
-// Reset the table to show all results from the data set
+//////////////////////////////////////////////////////////////////////
+//  Part 3 - Miscellaneous
+//////////////////////////////////////////////////////////////////////
+
+//  Selecting reset button will clear the table results and load with all data
+
+var resetButton = d3.select("#reset-btn");
 
 resetButton.on("click", () => {
   tbody.html("");
@@ -92,16 +125,9 @@ resetButton.on("click", () => {
   console.log("Table reset")
 })
 
-
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Reference
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// how to filter a table
-// https://stackoverflow.com/questions/9127498/how-to-perform-a-real-time-search-and-filter-on-a-html-table
 
-//go through each row
-// https://www.w3schools.com/howto/howto_js_filter_table.asp
 
-//more of how to filter a table
-// https://stackoverflow.com/questions/51187477/how-to-filter-a-html-table-using-simple-javascript
