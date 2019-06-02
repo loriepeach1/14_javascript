@@ -50,26 +50,22 @@ submit.on("click", function() {
     var inputShape = userInputShape.property("value").toLowerCase().trim();
 
     //Filter the table for the fields mathing the user values
-    // Each field the user can filter is a unique variable
     var filterDate = data.filter(data => data.datetime === inputDate);
     console.log(filterDate)
 
     var filterCity = data.filter(data => data.city === inputCity);
     console.log(filterCity)
 
-    var filterState = data.filter(data => data.state === inputState);
-    console.log(filterState)
-
     var filterData = data.filter(data => data.datetime === inputDate && data.city === inputCity);
     console.log(filterData)
 
 
-    // Add filtered sighting to table using IF condition
-    tbody.html("");
+  // Add filtered sighting to table
+  tbody.html("");
 
-    let response = {
-    filterDate, filterCity, filterState, filterData
-    }
+  let response = {
+    filterDate, filterCity, filterData
+  }
 
   if (response.filterData.length !== 0) {
     populate(filterData);
@@ -82,9 +78,6 @@ submit.on("click", function() {
       tbody.append("tr").append("td").text("No results found!"); 
     }
 })
-
-
-// Reset the table to show all results from the data set
 
 resetButton.on("click", () => {
   tbody.html("");
