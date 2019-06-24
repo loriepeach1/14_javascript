@@ -1,8 +1,18 @@
-# UFO Sightings
+# UFO Sightings - Query Table with JavaScript and D3
+
+![InitialLoad](ReadMeImages/picture1.png)
 
 ## Overview
 
-A dataset is provided as a .js file which is a list of objects.   The dataset is displayed and the user can filter by various key values.
+A dataset is provided as a .js file which is a list of objects.   A webpage is created which allows the user to search the dataset by various key values. 
+
+## Tools & Technologies Used: 
+
+* JavaScript
+* D3 library
+* Bootstrap Templates
+* HTML 5.0
+* CSS
 
 ### Part 1 - Populate Table
 
@@ -10,7 +20,7 @@ A dataset is provided as a .js file which is a list of objects.   The dataset is
 
 * Append all values from the dataset to the table.
 
-* In this example, thre is no transformation of the data and the search must match the string.   Things to include in the future:
+* In this example, there is no transformation of the data and the search must match the string.   Things to include in the future:
 *** Date formats.
 *** Upper case state and country codes.
 *** Camel case cities.
@@ -33,3 +43,13 @@ A dataset is provided as a .js file which is a list of objects.   The dataset is
 *  The CSS was modified to allow for:
 *** On hover, there is a color change of each row to allow for easier viewing.
 *** Column headers are left aligned.  (Opposed to Center)
+
+# Screen Images
+
+![InitialLoad](ReadMeImages/picture1.png)
+<br>
+![TableView](ReadMeImages/picture2.png)
+<br>
+![ReloadPage](ReadMeImages/picture3.png)
+<br>
+![HoverColor](ReadMeImages/picture4.png)
