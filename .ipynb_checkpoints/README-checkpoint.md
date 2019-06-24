@@ -1,6 +1,6 @@
 # UFO Sightings - Query Table with JavaScript and D3
 
-![InitialLoad](ReadMeImages/picture1.png)
+![InitialLoad](ReadMeImages/Picture1.png)
 
 ## Overview
 
@@ -46,10 +46,10 @@ A dataset is provided as a .js file which is a list of objects.   A webpage is c
 
 # Screen Images
 
-![InitialLoad](ReadMeImages/picture1.png)
+![InitialLoad](ReadMeImages/Picture1.png)
 <br>
-![TableView](ReadMeImages/picture2.png)
+![TableView](ReadMeImages/Picture2.png)
 <br>
-![ReloadPage](ReadMeImages/picture3.png)
+![ReloadPage](ReadMeImages/Picture3.png)
 <br>
-![HoverColor](ReadMeImages/picture4.png)
+![HoverColor](ReadMeImages/Picture4.png)
